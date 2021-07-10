@@ -1,0 +1,9 @@
+{
+	"name": "jagathADF",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "953c3288-2004-4547-bba6-908db59b9fbf",
+		"tenantId": "36da45f1-dd2c-4d1f-af13-5abe46b99921"
+	}
+}
