@@ -62,7 +62,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "Outputdataset",
+								"referenceName": "copyout",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -111,7 +111,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/inputdataset')]",
-				"[concat(variables('factoryId'), '/datasets/Outputdataset')]",
+				"[concat(variables('factoryId'), '/datasets/copyout')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
 			]
 		},
@@ -140,30 +140,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/copy1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Outputdataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage_linked",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "data.txt",
-						"folderPath": "output",
-						"container": "adftest"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_linked')]"
 			]
 		},
 		{
@@ -294,6 +270,29 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/emp')]",
 				"[concat(variables('factoryId'), '/datasets/emp_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/copyout')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage_linked",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "output",
+						"container": "adftest"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_linked')]"
 			]
 		}
 	]
