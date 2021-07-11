@@ -3,16 +3,9 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "copy_land_to_stg",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "checking existing of file",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"name": "conditions check",
+				"type": "GetMetadata",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -20,76 +13,87 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "BinarySource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true
-						},
-						"formatSettings": {
-							"type": "BinaryReadSettings"
-						}
-					},
-					"sink": {
-						"type": "BinarySink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						}
-					},
-					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "emp",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "stg_emp",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "checking existing of file",
-				"type": "Validation",
-				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "emp",
 						"type": "DatasetReference"
 					},
-					"timeout": "0.00:00:30",
-					"sleep": 10
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
 				}
 			},
 			{
-				"name": "failure activity",
-				"type": "WebActivity",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "checking existing of file",
+						"activity": "conditions check",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://deeradeera",
-					"method": "POST",
-					"body": "failed"
+					"expression": {
+						"value": "@equals(activity('Copy data1_copy1').output.exists,true)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "emp",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "stg_emp",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
 				}
 			}
 		],
