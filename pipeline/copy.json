@@ -45,7 +45,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Copy data1_copy1').output.exists,true)",
+						"value": "@equals(activity('conditions check').output.exists,true)",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
@@ -66,7 +66,8 @@
 									"type": "BinarySource",
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
-										"recursive": true
+										"recursive": true,
+										"deleteFilesAfterCompletion": true
 									},
 									"formatSettings": {
 										"type": "BinaryReadSettings"
