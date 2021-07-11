@@ -1,0 +1,19 @@
+{
+	"name": "archive_emp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Archive_emp",
+				"folderPath": "Archive",
+				"container": "landing"
+			}
+		}
+	}
+}
