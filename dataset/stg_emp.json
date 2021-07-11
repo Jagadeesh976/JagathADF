@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "stg_emp",
 				"folderPath": "Raw_curr",
 				"container": "staging"
 			}

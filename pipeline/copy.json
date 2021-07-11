@@ -50,7 +50,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy data1_copy1",
+							"name": "landing to staging",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -67,7 +67,7 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"deleteFilesAfterCompletion": true
+										"deleteFilesAfterCompletion": false
 									},
 									"formatSettings": {
 										"type": "BinaryReadSettings"
